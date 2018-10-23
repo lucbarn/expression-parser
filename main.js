@@ -5,7 +5,7 @@ function validExpression(exp) {
   let operatorsCount = 0;
   let current;
   let index;
-  if (['*', '/'].indexOf(expression.charAt(0)) > -1) {
+  if (['*', '/'].includes(expression.charAt(0))) {
     return false;
   }
   for (let i = 0; i < expression.length; i++) {
@@ -15,23 +15,23 @@ function validExpression(exp) {
       return false;
     }
     if (current === '(') {
-      if (i > 0 && ['+', '-', '*', '/', '('].indexOf(expression.charAt(i-1)) === -1) {
+      if (i > 0 && !['+', '-', '*', '/', '('].includes(expression.charAt(i-1))) {
         return false;
       }
-      if (i < expression.length - 1 && ['*', '/'].indexOf(expression.charAt(i+1)) > -1) {
+      if (i < expression.length - 1 && ['*', '/'].includes(expression.charAt(i+1))) {
         return false;
       }
       parenthesesCount++;
     } else if (current === ')') {
-      if (i > 0 && ['+', '-', '*', '/', '('].indexOf(expression.charAt(i-1)) > -1) {
+      if (i > 0 && ['+', '-', '*', '/', '('].includes(expression.charAt(i-1))) {
         return false;
       }
-      if (i < expression.length - 1 && ['+', '-', '*', '/', ')'].indexOf(expression.charAt(i+1)) === -1) {
+      if (i < expression.length - 1 && !['+', '-', '*', '/', ')'].includes(expression.charAt(i+1))) {
         return false;
       }
       parenthesesCount--;
     }
-    if (['+', '-', '*', '/'].indexOf(current) > -1) {
+    if (['+', '-', '*', '/'].includes(current)) {
       operatorsCount++;
     } else if (operatorsCount > 0 && current != ')') {
       operatorsCount--;
@@ -60,7 +60,7 @@ function solver(exp) {
   let tempIndex;
   let tempOperator;
   let tempValue;
-  if (['+', '-'].indexOf(expression[0]) > -1) {
+  if (['+', '-'].includes(expression[0])) {
     operator = expression[0];
     i = 1;
   }
@@ -90,7 +90,7 @@ function solver(exp) {
     } else {
       tempIndex = i;
       while (i < expression.length - 1) {
-        if (['+', '-', '*', '/'].indexOf(expression[i+1]) > -1) {
+        if (['+', '-', '*', '/'].includes(expression[i+1])) {
           break;
         }
         i++;
@@ -101,7 +101,7 @@ function solver(exp) {
         tempValue = Number(expression.slice(tempIndex, i+1));
       }
     }
-    if (['+', '-'].indexOf(tempOperator) > -1) {
+    if (['+', '-'].includes(tempOperator)) {
       if (operator === '+') {
         res += current;
         operator = tempOperator;
@@ -111,7 +111,7 @@ function solver(exp) {
         operator = tempOperator;
         current = tempValue;
       }
-    } else if (['*', '/'].indexOf(tempOperator) > -1) {
+    } else if (['*', '/'].includes(tempOperator)) {
       if (tempOperator === '*') {
         current *= tempValue;
       } else {
