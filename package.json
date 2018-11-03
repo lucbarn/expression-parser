@@ -1,0 +1,14 @@
+{
+  "name": "expressioon-parser",
+  "version": "0.0.0",
+  "scripts": {
+    "transpile-main": "node node_modules/typescript/bin/tsc --project ./",
+    "test": "node node_modules/jasmine/bin/jasmine"
+  },
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "~3.3.0",
+    "typescript": "~3.1.5"
+  }
+}

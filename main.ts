@@ -1,4 +1,4 @@
-function validExpression(exp) {
+export function validExpression(exp: string): boolean {
   const expression = exp.replace(/\s/g, '');
   const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')'];
   let parenthesesCount = 0;
@@ -47,7 +47,7 @@ function validExpression(exp) {
 }
 
 
-function solver(exp) {
+export function solver(exp: string): number {
   const expression = exp.replace(/\s/g, '');
   if (!validExpression(expression)) {
     throw 'Invalid expression';
