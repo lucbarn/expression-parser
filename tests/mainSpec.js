@@ -15,7 +15,7 @@ describe('Check valid expressions', () => {
     expect(validExpression(expr1)).toBe(true);
   })
 
-  it('Evaluates a single negative as valid', () => {
+  it('Evaluates a single negative integer as valid', () => {
     const expr1 = '-8';
     expect(validExpression(expr1)).toBe(true);
   })
@@ -25,8 +25,28 @@ describe('Check valid expressions', () => {
     expect(validExpression(expr1)).toBe(true);
   })
 
+  it('Evaluates a single negative integer with minus sign outside parentheses as valid', () => {
+    const expr1 = '-(1)';
+    expect(validExpression(expr1)).toBe(true);
+  })
+
+  it('Evaluates a single positive with leading plus sign as valid', () => {
+    const expr1 = '+1';
+    expect(validExpression(expr1)).toBe(true);
+  })
+
+  it('Evaluates a single integer inside multiple consecutive parentheses as valid', () => {
+    const expr1 = '((1))';
+    expect(validExpression(expr1)).toBe(true);
+  })
+
   it('Evaluates the sum of two integers as valid', () => {
     const expr1 = '1 + 1';
+    expect(validExpression(expr1)).toBe(true);
+  })
+
+  it('White spaces are ignored', () => {
+    const expr1 = '  1     + 1 ';
     expect(validExpression(expr1)).toBe(true);
   })
 
