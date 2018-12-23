@@ -30,9 +30,14 @@ describe('Check valid expressions', () => {
     expect(validExpression(expr1)).toBe(true);
   })
 
-  it('Evaluates a single positive with leading plus sign as valid', () => {
+  it('Evaluates a single positive integer with leading plus sign as valid', () => {
     const expr1 = '+1';
     expect(validExpression(expr1)).toBe(true);
+  })
+
+  it('Evaluates multiple leading plus signs as invalid', () => {
+    const expr1 = '++1';
+    expect(validExpression(expr1)).toBe(false);
   })
 
   it('Evaluates a single integer inside multiple consecutive parentheses as valid', () => {
@@ -52,6 +57,11 @@ describe('Check valid expressions', () => {
 
   it('Evaluates two consecutive operators as invalid', () => {
     const expr2 = '1 -- 2';
+    expect(validExpression(expr2)).toBe(false);
+  })
+
+  it('Evaluates a trailing sign as invalid', () => {
+    const expr2 = '10 + 2 +';
     expect(validExpression(expr2)).toBe(false);
   })
 
