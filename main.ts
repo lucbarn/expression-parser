@@ -1,29 +1,43 @@
 export function validExpression(exp: string): boolean {
   const expression = exp.replace(/\s/g, '');
-  const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')'];
+  const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const operators = ['+', '-', '*', '/'];
+  const validChars = [...digits, ...operators, '.', '(', ')'];
   let parenthesesCount = 0;
   let operatorsCount = 0;
+  let dotsCount = 0;
   let current;
   let index;
-  if (['*', '/'].includes(expression.charAt(0))) {
+  if (['*', '/', '.'].includes(expression.charAt(0))) {
     return false;
   }
   for (let i = 0; i < expression.length; i++) {
     current = expression.charAt(i);
-    index = validChars.indexOf(current);
-    if (index === -1) {
+    if (!validChars.includes(current)) {
       return false;
+    }
+    if (operators.includes(current) && dotsCount > 0) {
+      dotsCount--;
+    }
+    if (current === '.') {
+      if ((i == 0) || (i == expression.length - 1) || !digits.includes(expression.charAt(i-1)) || !digits.includes(expression.charAt(i+1))) {
+        return false;
+      }
+      if (dotsCount > 0) {
+        return false;
+      }
+      dotsCount++;
     }
     if (current === '(') {
       if (i > 0 && !['+', '-', '*', '/', '('].includes(expression.charAt(i-1))) {
         return false;
       }
-      if (i < expression.length - 1 && ['*', '/'].includes(expression.charAt(i+1))) {
+      if (i < expression.length - 1 && ['*', '/', '.'].includes(expression.charAt(i+1))) {
         return false;
       }
       parenthesesCount++;
     } else if (current === ')') {
-      if (i > 0 && ['+', '-', '*', '/', '('].includes(expression.charAt(i-1))) {
+      if (i > 0 && ['+', '-', '*', '/', '.', '('].includes(expression.charAt(i-1))) {
         return false;
       }
       if (i < expression.length - 1 && !['+', '-', '*', '/', ')'].includes(expression.charAt(i+1))) {
@@ -104,13 +118,11 @@ export function solver(exp: string): number {
     if (['+', '-'].includes(tempOperator)) {
       if (operator === '+') {
         res += current;
-        operator = tempOperator;
-        current = tempValue;
       } else {
         res -= current;
-        operator = tempOperator;
-        current = tempValue;
       }
+      operator = tempOperator;
+      current = tempValue;
     } else if (['*', '/'].includes(tempOperator)) {
       if (tempOperator === '*') {
         current *= tempValue;
