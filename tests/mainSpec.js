@@ -94,4 +94,9 @@ describe('Check results', () => {
     expect(solver(expr1)).toBe(-10 / (-2));
   })
 
+  it('Evaluates an expression with multiple parantheses', () => {
+    const expr1 = '10 + (-(1) * 3 + (-0)) / 2';
+    expect(solver(expr1)).toBe(10 + (-(1) * 3 + (-0)) / 2);
+  })
+
 });
