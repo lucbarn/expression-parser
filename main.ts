@@ -1,3 +1,29 @@
+export function getUnsignedValue(s: string): number {
+  const mapping = new Map([
+    ['0', 0],
+    ['1', 1],
+    ['2', 2],
+    ['3', 3],
+    ['4', 4],
+    ['5', 5],
+    ['6', 6],
+    ['7', 7],
+    ['8', 8],
+    ['9', 9]
+  ]);
+  let res = 0;
+  const [integral, fractional] = s.split('.');
+  for (let j = 0; j < integral.length; j++) {
+    res += mapping.get(integral[integral.length-j-1]) * 10**j;
+  }
+  if (fractional !== undefined) {
+    for (let k = 0; k < fractional.length; k++) {
+      res += mapping.get(fractional[k]) / 10**(k+1);
+    }
+  }
+  return res;
+}
+
 export function validExpression(exp: string): boolean {
   const expression = exp.replace(/\s/g, '');
   const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
