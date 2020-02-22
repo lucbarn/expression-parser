@@ -92,14 +92,14 @@ export function solver(exp: string): number {
   if (!validExpression(expression)) {
     throw 'Invalid expression';
   }
-  let res = 0;
-  let current;
-  let operator = '+';
-  let i = 0;
-  let parenthesesCount;
-  let tempIndex;
-  let tempOperator;
-  let tempValue;
+  let res: number = 0;
+  let current: number;
+  let operator: string = '+';
+  let i: number = 0;
+  let parenthesesCount: number;
+  let tempIndex: number;
+  let tempOperator: string;
+  let tempValue: number;
   if (['+', '-'].includes(expression[0])) {
     operator = expression[0];
     i = 1;
