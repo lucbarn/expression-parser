@@ -136,9 +136,9 @@ export function solver(exp: string): number {
         i++;
       }
       if (typeof(current) === 'undefined') {
-        current = Number(expression.slice(tempIndex, i+1));
+        current = getUnsignedValue(expression.slice(tempIndex, i+1));
       } else {
-        tempValue = Number(expression.slice(tempIndex, i+1));
+        tempValue = getUnsignedValue(expression.slice(tempIndex, i+1));
       }
     }
     if (['+', '-'].includes(tempOperator)) {
