@@ -24,6 +24,21 @@ export function getUnsignedValue(s: string): number {
   return res;
 }
 
+export function getParentheses(exp: string): number[][] {
+  let res: number[][] = [];
+  let stack: number[] = [];
+  let i: number;
+  for (let j = 0; j < exp.length; j++) {
+    if (exp[j] === '(') {
+      stack.push(i);
+    } else if (exp[j] === ')') {
+      i = stack.pop();
+      res.push([i,j])
+    }
+  }
+  return res;
+}
+
 export function validExpression(exp: string): boolean {
   const expression = exp.replace(/\s/g, '');
   const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -100,10 +115,13 @@ export function solver(exp: string): number {
   let tempIndex: number;
   let tempOperator: string;
   let tempValue: number;
+
+  // check if the first character is an operator
   if (['+', '-'].includes(expression[0])) {
     operator = expression[0];
     i = 1;
   }
+  
   while (i < expression.length) {
     if (i > 1) {
       tempOperator = expression[i-1];
