@@ -182,3 +182,17 @@ export function solver(exp: string): number {
     return res - current;
   }
 }
+
+export function wrapper(exp: string): number {
+  const parentheses = getParentheses(exp);
+  const visited = {};
+  let result;
+  for (const [i,j] of parentheses) {
+    result = solver(exp.substring(i+1,j));
+    visited[i] = {
+      'value': result,
+      'closingIndex': j
+    };
+  }
+  return solver(exp);
+}
