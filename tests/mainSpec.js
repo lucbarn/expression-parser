@@ -1,7 +1,7 @@
 const mainFunctions = require('../main.js');
 
 const validExpression = mainFunctions.validExpression;
-const solver = mainFunctions.solver;
+const evaluateExpression = mainFunctions.evaluateExpression;
 
 describe('Check valid expressions', () => {
 
@@ -71,32 +71,37 @@ describe('Check results', () => {
 
   it('Evaluates a single integer as equal to itself', () => {
     const expr1 = '3';
-    expect(solver(expr1)).toBe(3);
+    expect(evaluateExpression(expr1)).toBe(3);
+  })
+
+  it('Evaluates a single negative integer as equal to itself', () => {
+    const expr1 = '-3';
+    expect(evaluateExpression(expr1)).toBe(-3);
   })
 
   it('Evaluates a sum', () => {
     const expr1 = '10 + 12';
-    expect(solver(expr1)).toBe(10 + 12);
+    expect(evaluateExpression(expr1)).toBe(10 + 12);
   })
 
   it('Evaluates a subtraction', () => {
     const expr1 = '-2 - 5';
-    expect(solver(expr1)).toBe(-2 - 5);
+    expect(evaluateExpression(expr1)).toBe(-2 - 5);
   })
 
   it('Evaluates a multiplication', () => {
     const expr1 = '2 * (-2)';
-    expect(solver(expr1)).toBe(2 * (-2));
+    expect(evaluateExpression(expr1)).toBe(2 * (-2));
   })
 
   it('Evaluates a division', () => {
     const expr1 = '-10 / (-2)';
-    expect(solver(expr1)).toBe(-10 / (-2));
+    expect(evaluateExpression(expr1)).toBe(-10 / (-2));
   })
 
   it('Evaluates an expression with multiple parantheses', () => {
     const expr1 = '10 + (-(1) * 3 + (-0)) / 2';
-    expect(solver(expr1)).toBe(10 + (-(1) * 3 + (-0)) / 2);
+    expect(evaluateExpression(expr1)).toBe(10 + (-(1) * 3 + (-0)) / 2);
   })
 
 });

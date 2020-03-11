@@ -1,3 +1,8 @@
+interface Evaluated {
+  'value': number,
+  'closingIndex': number
+}
+
 export function getUnsignedValue(s: string): number {
   const mapping = new Map([
     ['0', 0],
@@ -24,14 +29,14 @@ export function getUnsignedValue(s: string): number {
   return res;
 }
 
-export function getParentheses(exp: string): number[][] {
+export function getParentheses(expression: string): number[][] {
   let res: number[][] = [];
   let stack: number[] = [];
   let i: number;
-  for (let j = 0; j < exp.length; j++) {
-    if (exp[j] === '(') {
-      stack.push(i);
-    } else if (exp[j] === ')') {
+  for (let j = 0; j < expression.length; j++) {
+    if (expression[j] === '(') {
+      stack.push(j);
+    } else if (expression[j] === ')') {
       i = stack.pop();
       res.push([i,j])
     }
@@ -101,59 +106,43 @@ export function validExpression(exp: string): boolean {
   return parenthesesCount === 0 && operatorsCount === 0;
 }
 
-
-export function solver(exp: string): number {
-  const expression = exp.replace(/\s/g, '');
-  if (!validExpression(expression)) {
-    throw 'Invalid expression';
-  }
+export function solver(expression: string, start: number, end: number, cached: Map<number, Evaluated>): number {
   let res: number = 0;
   let current: number;
   let operator: string = '+';
-  let i: number = 0;
-  let parenthesesCount: number;
+  let i: number = start;
+  let evaluated: Evaluated;
   let tempIndex: number;
   let tempOperator: string;
   let tempValue: number;
 
   // check if the first character is an operator
-  if (['+', '-'].includes(expression[0])) {
-    operator = expression[0];
-    i = 1;
+  if (['+', '-'].includes(expression[start])) {
+    operator = expression[start];
+    i = start+1;
   }
   
-  while (i < expression.length) {
-    if (i > 1) {
+  while (i < end) {
+    if (i > start+1) {
       tempOperator = expression[i-1];
     }
     if (expression[i] === '(') {
-      parenthesesCount = 0;
-      tempIndex = i;
-      while (true) {
-        if (expression[i] === '(') {
-          parenthesesCount++;
-        } else if (expression[i] === ')') {
-          parenthesesCount--;
-        }
-        if (parenthesesCount === 0) {
-          break;
-        }
-        i++;
-      }
-      if (typeof(current) === 'undefined') {
-        current = solver(expression.slice(tempIndex + 1, i));
+      evaluated = cached.get(i);
+      i = evaluated.closingIndex;
+      if (current === undefined) {
+        current = evaluated.value;
       } else {
-        tempValue = solver(expression.slice(tempIndex + 1, i));
+        tempValue = evaluated.value;
       }
     } else {
       tempIndex = i;
-      while (i < expression.length - 1) {
+      while (i < end-1) {
         if (['+', '-', '*', '/'].includes(expression[i+1])) {
           break;
         }
         i++;
       }
-      if (typeof(current) === 'undefined') {
+      if (current === undefined) {
         current = getUnsignedValue(expression.slice(tempIndex, i+1));
       } else {
         tempValue = getUnsignedValue(expression.slice(tempIndex, i+1));
@@ -183,16 +172,23 @@ export function solver(exp: string): number {
   }
 }
 
-export function wrapper(exp: string): number {
-  const parentheses = getParentheses(exp);
-  const visited = {};
-  let result;
+export function evaluateExpression(exp: string): number {
+  const expression = exp.replace(/\s/g, '');
+  if (!validExpression(expression)) {
+    throw 'Invalid expression';
+  }
+  const parentheses = getParentheses(expression);
+  const cached: Map<number, Evaluated> = new Map();
+  let result: number;
+  let evaluated: Evaluated;
   for (const [i,j] of parentheses) {
-    result = solver(exp.substring(i+1,j));
-    visited[i] = {
+    result = solver(expression, i+1, j, cached);
+    evaluated = {
       'value': result,
       'closingIndex': j
     };
+    cached.set(i, evaluated); 
   }
-  return solver(exp);
+  return solver(expression, 0, expression.length, cached);
 }
+
