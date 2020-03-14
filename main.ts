@@ -1,7 +1,4 @@
-interface Evaluated {
-  'value': number,
-  'closingIndex': number
-}
+import { Evaluated } from './interfaces';
 
 export function unsignedValue(s: string): number {
   const mapping = new Map([
