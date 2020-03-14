@@ -3,7 +3,7 @@ interface Evaluated {
   'closingIndex': number
 }
 
-export function getUnsignedValue(s: string): number {
+export function unsignedValue(s: string): number {
   const mapping = new Map([
     ['0', 0],
     ['1', 1],
@@ -143,9 +143,9 @@ export function solver(expression: string, start: number, end: number, cached: M
         i++;
       }
       if (current === undefined) {
-        current = getUnsignedValue(expression.slice(tempIndex, i+1));
+        current = unsignedValue(expression.slice(tempIndex, i+1));
       } else {
-        tempValue = getUnsignedValue(expression.slice(tempIndex, i+1));
+        tempValue = unsignedValue(expression.slice(tempIndex, i+1));
       }
     }
     if (['+', '-'].includes(tempOperator)) {
