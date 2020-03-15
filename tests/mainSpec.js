@@ -134,9 +134,14 @@ describe('Check results', () => {
     expect(evaluateExpression(expr1)).toBe(-10 / (-2));
   });
 
-  it('Evaluates an expression with multiple parantheses', () => {
+  it('Evaluates expressions with multiple parantheses', () => {
+    
     const expr1 = '10 + (-(1) * 3 + (-0)) / 2';
     expect(evaluateExpression(expr1)).toBe(10 + (-(1) * 3 + (-0)) / 2);
+
+    const expr2 = '(-7 + (-(1) * 3 + (-0)) / 2) * (5.2 - (-8 * 4))';
+    expect(evaluateExpression(expr2)).toBe((-7 + (-(1) * 3 + (-0)) / 2) * (5.2 - (-8 * 4)));
+  
   });
 
 });
