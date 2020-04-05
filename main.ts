@@ -1,6 +1,10 @@
 import { Evaluated } from './interfaces';
 
 export function unsignedValue(s: string): number {
+  /**
+   * Computes the value of a number.
+   * Only digits and an optional dot are allowed.
+   */
   const mapping = new Map([
     ['0', 0],
     ['1', 1],
@@ -27,6 +31,10 @@ export function unsignedValue(s: string): number {
 }
 
 export function getParentheses(expression: string): number[][] {
+  /**
+   * Finds the opening and closing indices of each parentheses group in the expression.
+   * Inner parentheses groups come after outer ones.
+   */
   let res: number[][] = [];
   let stack: number[] = [];
   let i: number;
@@ -42,6 +50,10 @@ export function getParentheses(expression: string): number[][] {
 }
 
 export function validExpression(exp: string): boolean {
+  /**
+   * Checks if an expression is valid.
+   * The check is based on the characters found in the expression as well as on their order.
+   */
   const expression = exp.replace(/\s/g, '');
   const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   const operators = ['+', '-', '*', '/'];
@@ -104,6 +116,9 @@ export function validExpression(exp: string): boolean {
 }
 
 export function solver(expression: string, start: number, end: number, cached: Map<number, Evaluated>): number {
+  /**
+   * Computes the value of an expression from the start index to the end index.
+   */
   let res: number = 0;
   let current: number;
   let operator: string = '+';
@@ -170,6 +185,10 @@ export function solver(expression: string, start: number, end: number, cached: M
 }
 
 export function evaluateExpression(exp: string): number {
+  /**
+   * Computes the value of a full expression by repeatedly computing the value
+   * of all its parentheses groups.
+   */
   const expression = exp.replace(/\s/g, '');
   if (!validExpression(expression)) {
     throw 'Invalid expression';
