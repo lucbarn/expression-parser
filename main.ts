@@ -33,7 +33,7 @@ export function unsignedValue(s: string): number {
 export function getParentheses(expression: string): number[][] {
   /**
    * Finds the opening and closing indices of each parentheses group in the expression.
-   * Inner parentheses groups come after outer ones.
+   * Inner parentheses groups come before outer ones in the output array.
    */
   let res: number[][] = [];
   let stack: number[] = [];
